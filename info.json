@@ -1,11 +1,11 @@
 {
-  "name": "A-skeleton",
-  "version": "1.0.1",
-  "title": "Skeleton template for new mods",
+  "name": "science-is-fake",
+  "version": "0.0.1",
+  "title": "Science Is Fake",
   "author": "Subject31415",
   "factorio_version": "2.0",
   "dependencies": [
     "base >= 2.0"
   ],
-  "description": "Not for publishing"
+  "description": "Not for publishing (yet)"
 }

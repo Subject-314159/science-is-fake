@@ -14,8 +14,10 @@ script.on_init(function()
 
     -- Warn players if the mod is added to an existing save
     -- We consider games that are >10sec old to be an existing save
-    if game.tick > 10*60 then
-        game.print("[color=red][font=bold]WARNING[/font][/color] It appears that Science Is Fake was added to an existing save, be aware that your production chain might be broken!")
+    if game.tick > 10 * 60 then
+        game.print(
+            "[color=red][font=bold]WARNING[/font][/color] It appears that Science Is Fake was added to an existing save, be aware that your production chain might be broken!")
+    end
 end)
 
 script.on_load(function()
