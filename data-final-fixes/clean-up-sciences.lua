@@ -1,0 +1,1 @@
+-- Disable/remove all science items, remove all recipes that produce only science packs, remove all science packs from 

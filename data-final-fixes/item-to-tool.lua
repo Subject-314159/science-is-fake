@@ -2,7 +2,6 @@
 -- For all other item children make a conversion recipe
 -- e.g. 'ammo' to 'tool' and 'tool' to 'ammo'
 -- For those items add a small mark (paper icon?) in one of the corners
-local suffix = "-siftool"
 
 -- Function to create recipes
 local function get_recipe(from, to)
@@ -52,12 +51,18 @@ for _,p in pairs(prot) do
             table.insert(recs, rto)
             table.insert(recs, rfrom)
 
-            -- Add the recipes to the appropriate tech
+            -- Add the conversion recipes to the appropriate tech
             -- TODO
-        end
 
-        -- Remember the item
-        itms[p][name] = cur
+            -- Add the item to the mapping table
+            -- If the item is a regular tool it return the same name
+            -- If the item is not a tool it returns the name + suffix
+            item_map[name] = cur.name
+
+            -- Remember the item
+            itms[p][name] = cur
+
+        end
     end
 end
 

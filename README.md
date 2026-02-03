@@ -4,7 +4,9 @@
 
 # Known issues
 
--   None, feel free to open a bug report
+-   Incompatible with mods that add multiple recipes to produce any science pack
+-   Incompatible with mods that require a science pack in a recipe that produces another science pack
+-   Fluids are not (yet) incorporated in technology research cost
 
 # Roadmap
 
