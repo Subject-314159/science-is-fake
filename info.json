@@ -1,0 +1,11 @@
+{
+  "name": "A-skeleton",
+  "version": "1.0.1",
+  "title": "Skeleton template for new mods",
+  "author": "Subject31415",
+  "factorio_version": "2.0",
+  "dependencies": [
+    "base >= 2.0"
+  ],
+  "description": "Not for publishing"
+}
