@@ -1,0 +1,2 @@
+-- Go through all technology
+-- For each technology that does not have prerequisites and is not the charcoal pencil or paper technology, add the reserach paper technology as prerequisite

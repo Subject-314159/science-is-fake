@@ -1,0 +1,3 @@
+-- Disable all starting recipes
+-- Make a technology for that recipe (without recipe ingredients --> done later)
+-- Add our bootstrap research tech as prerequisite
