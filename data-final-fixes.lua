@@ -1,4 +1,4 @@
---Declare global variables
+-- Declare global variables
 suffix = "-siftool"
 item_map = {}
 fluid_map = {}
@@ -13,7 +13,7 @@ science_cost = {}
 -- require("data-final-fixes.update-entry-tech")
 
 -- Create barrelling items and recipes for all opted-out fluids and create the fluid mapping
-require("data-final-fixes.make-barrel.lua")
+require("data-final-fixes.make-barrel")
 
 -- Convert all items to tools and creat the item mapping
 require("data-final-fixes.item-to-tool")

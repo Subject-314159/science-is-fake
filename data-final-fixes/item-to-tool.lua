@@ -59,6 +59,8 @@ for _, p in pairs(prot) do
             -- Update item prototype data
             cur.name = cur.name .. suffix
 
+            -- TODO: Fix localised name
+
             -- Create a conversion recipe
             local rto = get_recipe_to(itm.name)
             local rfrom = get_recipe_from(itm.name)
@@ -68,13 +70,11 @@ for _, p in pairs(prot) do
             -- Add the conversion recipes to the appropriate tech
             -- TODO
 
-            -- Add the item to the mapping table
-            -- If the item is a regular tool it return the same name
-            -- If the item is not a tool it returns the name + suffix
-
         end
 
-        -- Add the item name to the item mapping
+        -- Add the item to the mapping table
+        -- If the item is a regular tool it return the same name
+        -- If the item is not a tool it returns the name + suffix
         item_map[itm.name] = cur.name
 
         -- Remember the item

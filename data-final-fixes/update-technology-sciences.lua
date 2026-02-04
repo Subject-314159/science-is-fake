@@ -42,7 +42,9 @@ for name, tech in pairs(data.raw["technology"]) do
                 -- Collect each results
                 for _, result in pairs(recipe.results or {}) do
                     all_results[result.name] = true
-                    all_results[item_map[result.name]] = true
+                    if item_map[result.name] then
+                        all_results[item_map[result.name]] = true
+                    end
                 end
             else
                 non_recipe_effects = non_recipe_effects + 1
@@ -63,8 +65,10 @@ for name, tech in pairs(data.raw["technology"]) do
         -- Or if the tech does not have any effects at all
         if non_recipe_effects > 0 or not tech.effects then
             -- Correct multiplier if we got here because the tech does not have any effects
-            if non_recipe_effects == 0 then non_recipe_effects = 1 end
-            
+            if non_recipe_effects == 0 then
+                non_recipe_effects = 1
+            end
+
             -- Go through all science packs required for this technology
             for _, ingredient in pairs(tech.unit.ingredients or {}) do
                 local science = ingredient[1]
@@ -134,6 +138,5 @@ for name, tech in pairs(data.raw["technology"]) do
         end
     end
 end
-
 
 -- At this point we *should* have no more tech with any of the original science packs

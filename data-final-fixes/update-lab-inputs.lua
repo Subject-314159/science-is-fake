@@ -5,4 +5,5 @@ for lab_name, prop in pairs(lab_map) do
     for science, _ in pairs(prop.items) do
         table.insert(lab.inputs, science)
     end
+    log(lab_name .. " has inputs: " .. serpent.block(lab.inputs))
 end
