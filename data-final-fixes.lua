@@ -1,6 +1,7 @@
 --Declare global variables
 suffix = "-siftool"
 item_map = {}
+fluid_map = {}
 lab_map = {}
 all_sciences = {}
 science_cost = {}
@@ -10,6 +11,9 @@ science_cost = {}
 
 -- Add all entry tech as successor to our bootstrap tech
 -- require("data-final-fixes.update-entry-tech")
+
+-- Create barrelling items and recipes for all opted-out fluids and create the fluid mapping
+require("data-final-fixes.make-barrel.lua")
 
 -- Convert all items to tools and creat the item mapping
 require("data-final-fixes.item-to-tool")

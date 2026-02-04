@@ -25,13 +25,17 @@ for name, tech in pairs(data.raw["technology"]) do
             if effect.type == "unlock-recipe" then
                 local recipe = data.raw["recipe"][effect.recipe]
                 for _, ingredient in pairs(recipe.ingredients or {}) do
+                    local toolname, amount
                     if ingredient.type == "item" then
                         -- Get the tool name equivalent of the item for non item/tool items
-                        local toolname = item_map[ingredient.name]
-                        cost[toolname] = (cost[toolname] or 0) + ingredient.amount
+                        toolname = item_map[ingredient.name]
+                        amount = ingredient.amount
                     else
-                        -- TODO: Get the barrel equivalent of the fluid
+                        -- Get the barrel equivalent of the fluid and the number of barrelt (rounded up) based on the fluid count for this recipe
+                        toolname = fluid_map[ingredient.name].barrel_item
+                        amount = math.ceil(ingredient.amount / fluid_map[ingredient.name].fluid_amount)
                     end
+                    cost[toolname] = (cost[toolname] or 0) + amount
                 end
             else
                 non_recipe_effects = non_recipe_effects + 1
@@ -39,7 +43,9 @@ for name, tech in pairs(data.raw["technology"]) do
         end
 
         -- Get the science cost for non-recipe effects
-        if non_recipe_effects > 0 then
+        -- Or if the tech does not have any effects at all
+        if non_recipe_effects > 0 or not tech.effects then
+            if not tech.effects then non_recipe_effects = 1 end
             -- Go through all science packs required for this technology
             for _, ingredient in pairs(tech.unit.ingredients or {}) do
                 local science = ingredient[1]
@@ -109,5 +115,6 @@ for name, tech in pairs(data.raw["technology"]) do
         end
     end
 end
+
 
 -- At this point we *should* have no more tech with any of the original science packs
