@@ -45,7 +45,9 @@ for name, tech in pairs(data.raw["technology"]) do
         -- Get the science cost for non-recipe effects
         -- Or if the tech does not have any effects at all
         if non_recipe_effects > 0 or not tech.effects then
-            if not tech.effects then non_recipe_effects = 1 end
+            -- Correct multiplier if we got here because the tech does not have any effects
+            if non_recipe_effects == 0 then non_recipe_effects = 1 end
+            
             -- Go through all science packs required for this technology
             for _, ingredient in pairs(tech.unit.ingredients or {}) do
                 local science = ingredient[1]
