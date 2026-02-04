@@ -19,6 +19,7 @@
 for name, tech in pairs(data.raw["technology"]) do
     -- Sum the cost of all unlocked recipe ingredients
     if tech.unit then
+        local all_results = {}
         local cost = {}
         local non_recipe_effects = 0
         for _, effect in pairs(tech.effects or {}) do
@@ -37,9 +38,25 @@ for name, tech in pairs(data.raw["technology"]) do
                     end
                     cost[toolname] = (cost[toolname] or 0) + amount
                 end
+
+                -- Collect each results
+                for _, result in pairs(recipe.results or {}) do
+                    all_results[result.name] = true
+                    all_results[item_map[result.name]] = true
+                end
             else
                 non_recipe_effects = non_recipe_effects + 1
             end
+        end
+
+        -- Remove all items from the cost which are a result of the unlocked recipe
+        -- This is to prevent deadlocks
+        -- E.g. technology fluid handling unlocks both barrelling/unbarrelling recipes
+        -- But the translated required items for the technology are only unlocked by this technology
+        -- To investigate: We might unlock "optimizing" recipes that produce material which is already unlocked, we should not have to remove those
+        -- Option: BFS DAG the technologies instead
+        for res, _ in pairs(all_results) do
+            cost[res] = nil
         end
 
         -- Get the science cost for non-recipe effects
