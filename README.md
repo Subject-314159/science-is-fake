@@ -3,11 +3,23 @@
 “I have not failed. I’ve just found 10,000 ways that won’t work.”
 - Thomas A. Edison
 
-Isn't it peculiar that you mash together a copper plate and an iron gear, and make a mysterious potion that magically gives you the insight to build new things?
+Isn't it peculiar that you mash together a copper plate and an iron gear, in order to make a mysterious potion, which magically gives you the insight to build new things?
 
-Wouldn't it make more sense that in order to gain certain knowledge, you actually run experiments with the tools and items you have available?
+Wouldn't it make more sense that in order to gain certain knowledge and build new things, you actually run experiments with available tools and items that will actually result in those new things?
 
-*How it works*
+---
+
+# Incompatibility warning
+
+- Incompatible with mods that add multiple recipes which produce the same science pack, resulting in possible deadlocks
+- Incompatible with mods that require science packs as ingredients in recipes
+- Incompatible with mods that add fluid which refuse to be barreled or fluids which are not properly defined
+- Incompatible with mods that add/remove items/fluids/recipes/technology/labs in the data-final-fixes stage
+- Incompatible with mods that edit affected recipe ingredients/results, technology costs or lab inputs in the data-final-fixes stage
+
+--- 
+
+# How it works
 
 Instead of researching by consuming science packs, research is done by consuming the ingredients of the recipes that are unlocked by that technology.
 
@@ -43,13 +55,16 @@ Science packs no longer exist, simple as that. This means:
 
 # Known issues
 
-- Incompatible with mods that add multiple recipes to produce any science pack, with possible deadlocks
-- Incompatible with mods that require science packs as ingredients in recipes
-- Incompatible with mods that add fluid which refuse to be barreled or fluids which are not properly defined
+- This mod has not been extensively stress-tested and there is no guarantee that the mod is deadlock free
+- Not all locale is properly defined
+- Not all "tool equivalent" item/recipe icons are properly defined
+- There are "tool equivalent" items/recipes created for all non-tool items, but not all of them are used as lab input
+- Science pack related items/recipes/technology are not actually removed but instead are hidden
 
 # Roadmap
 
 - Make this mod awesome
+- Add a "research paper"-like item as the basis for all technology
 - Recursive replace science packs in recipe ingredients
 - Add a give-item modifier to each technology --> You'll get the first one free because you were successful
 - Add a GUI to show which item is used how many times in remaining technology
