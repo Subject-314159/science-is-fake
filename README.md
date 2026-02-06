@@ -59,6 +59,7 @@ Science packs no longer exist, simple as that. This means:
 - This mod has not been extensively stress-tested and there is no guarantee that the mod is deadlock free
 - Not all locale is properly defined
 - Not all "tool equivalent" item/recipe icons are properly defined
+- There are "tool equivalent" items/recipes created for all non-tool items, but not all of them are used as lab input
 - Science pack related items/recipes/technology are not actually removed but instead are hidden
 
 # Roadmap
