@@ -44,9 +44,18 @@ for name, lab in pairs(data.raw["lab"]) do
                 -- TODO: Decide what to do if a science recipe requires another science pack (probably needs recursive replacement)
                 if recipe_produces_science then
                     for _, ingredient in pairs(recipe.ingredients or {}) do
-                        -- Get the tool name equivalent of the item for non item/tool items
-                        local toolname = item_map[ingredient.name]
-                        cur_cost[toolname] = (cur_cost[toolname] or 0) + ingredient.amount
+                        -- Get the tool name equivalent of the item for non item/tool items/fluids
+                        local toolname
+                        if ingredient.type == "item" then
+                            toolname = item_map[ingredient.name]
+                        else
+                            if fluid_map[ingredient.name] then
+                                toolname = fluid_map[ingredient.name].barrel_item
+                            end
+                        end
+                        if toolname then
+                            cur_cost[toolname] = (cur_cost[toolname] or 0) + ingredient.amount
+                        end
                     end
                 end
             end
@@ -54,3 +63,5 @@ for name, lab in pairs(data.raw["lab"]) do
         end
     end
 end
+
+log("Complete science cost mapping = " .. serpent.block(science_cost))

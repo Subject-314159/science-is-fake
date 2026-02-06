@@ -63,7 +63,7 @@ for name, tech in pairs(data.raw["technology"]) do
 
         -- Get the science cost for non-recipe effects
         -- Or if the tech does not have any effects at all
-        if non_recipe_effects > 0 or not tech.effects then
+        if non_recipe_effects > 0 or not tech.effects or next(cost) == nil then
             -- Correct multiplier if we got here because the tech does not have any effects
             if non_recipe_effects == 0 then
                 non_recipe_effects = 1
@@ -130,9 +130,6 @@ for name, tech in pairs(data.raw["technology"]) do
             for item, count in pairs(cost) do
                 local prop = {item, count}
                 table.insert(ing, prop)
-            end
-            if tech.name == "advanced-oil-processing" then
-                log("New ingredients:" .. serpent.line(ing))
             end
             tech.unit.ingredients = ing
         end

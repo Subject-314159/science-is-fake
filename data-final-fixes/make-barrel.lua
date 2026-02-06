@@ -256,7 +256,7 @@ local function add_barrel_to_technology(fill_recipe, empty_recipe, technology)
 end
 
 local function log_barrel_error(string)
-    log("Auto barrel generation is disabled: " .. string .. ".")
+    log("[SIF] Auto barrel generation is disabled: " .. string .. ".")
 end
 
 local function can_process_fluids(fluids, technology, empty_barrel_item)
@@ -290,7 +290,7 @@ local function process_fluid(fluid, technology, empty_barrel_item)
     --   if fluid.auto_barrel == false then return end
 
     if not (fluid.icon or fluid.icons) then
-        log("Can't make barrel recipe for " .. fluid.name .. ", it doesn't have any icon or icons.")
+        log("[SIF] Can't make barrel recipe for " .. fluid.name .. ", it doesn't have any icon or icons.")
         return
     end
 
@@ -316,7 +316,7 @@ local function process_fluid(fluid, technology, empty_barrel_item)
     -- Add the fluid to the mapping table
     fluid_map[fluid.name] = {
         fluid_amount = fluid_amount,
-        barrel_item = barrel_item.name
+        barrel_item = barrel_name
     }
 
 end
@@ -324,6 +324,7 @@ end
 local function process_fluids(fluids, technology, empty_barrel_item)
 
     if not can_process_fluids(fluids, technology, empty_barrel_item) then
+        log("[SIF] Early exit because we can't process fluids")
         return
     end
 
