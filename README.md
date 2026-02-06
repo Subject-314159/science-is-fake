@@ -3,10 +3,9 @@
 “I have not failed. I’ve just found 10,000 ways that won’t work.”
 - Thomas A. Edison
 
-Isn't it peculiar that you mash together a copper plate and an iron gear, and make a mysterious potion that magically gives you the insight to build new things?
+Isn't it peculiar that you mash together a copper plate and an iron gear, in order to make a mysterious potion, which magically gives you the insight to build new things?
 
-Wouldn't it make more sense that in order to gain certain knowledge, you actually run experiments with the tools and items you have available?
-
+Wouldn't it make more sense that in order to gain certain knowledge and build new things, you actually run experiments with available tools and items that will actually result in those new things?
 
 ---
 
