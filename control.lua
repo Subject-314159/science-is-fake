@@ -24,7 +24,7 @@ local load = function()
 
                 -- Set the flag and init struct
                 storage.unittest_deadlock = true
-                storage.deadlock = {force = f, available_tech=tech}
+                storage.deadlock = {force = f, available_tech=tech, recipe_shortlist = {}}
 
                 -- Inform user
                 game.print("unittest for deadlock started, expected duration: "..numtech.." ticks")
@@ -100,11 +100,29 @@ local function do_unittest_deadlock_tick()
                     reqs[unit.name]=true
                 end
 
-                -- Go through all unlocked recipes for this force and check if we can produce each research ingredient
-                for _,rec in pairs(f.recipes) do
+                -- Go through previously used recipe shortlist
+                for _,rec in pairs(storage.deadlock.recipe_shortlist or {}) do
                     for _,res in pairs(rec.products) do
                         if reqs[res.name] then reqs[res.name] = nil end
                     end
+                end
+
+                -- Go through all unlocked recipes for this force and check if we can produce each research ingredient
+                for _,rec in pairs(f.recipes or {}) do
+                    --Early exit if we found all "sciences"
+                    if next(reqs) == nil then break end
+
+                    -- Go through the products of this recipe and check if it is one of our "sciences"
+                    for _,res in pairs(rec.products) do
+                        if reqs[res.name] then 
+                            -- Clear this science requirement
+                            reqs[res.name] = nil
+
+                            -- Add this recipe as unlocking recipe in our shortlist
+                            if not storage.deadlock.recipe_shortlist[res.name] then storage.deadlock.recipe_shortlist[res.name] = res end
+                        end
+                    end
+
                 end
 
                 -- Check if all required research ingredients are produced, or fail our unit test
