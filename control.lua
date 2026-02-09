@@ -16,10 +16,8 @@ local load = function()
 
                 -- Get the entry tech
                 local tech = {}
-                local numtech = 0
                 for _,t in pairs(f.technologies) do
                     if not t.prerequisites then table.insert(tech,t) end
-                    numtech=numtech+1
                 end
 
                 -- Set the flag and init struct
@@ -27,8 +25,7 @@ local load = function()
                 storage.deadlock = {force = f, available_tech=tech, recipe_shortlist = {}}
 
                 -- Inform user
-                game.print("unittest for deadlock started, expected duration: "..numtech.." ticks")
-                game.print("During this period (severe) lag may be experienced")
+                game.print("unittest for deadlock started, during this period (severe) lag may be experienced")
             end
     end)
 end
