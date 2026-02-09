@@ -33,6 +33,35 @@ local function get_recipe_from(name)
     return get_recipe(name .. suffix, name)
 end
 
+local function add_recipe_to_tech(recipe)
+    -- Loop through all tech and their unlocking recipes
+    -- TODO: Update to DAG, because now we add the recipe to ALL applicable tech and not just only the first one, possibly resulting in duplicates
+    for tech_name, tech in pairs(data.raw["technology"]) do
+        local match = false
+        for _, effect in pairs(tech.effects or {}) do
+            if effect.type == "unlock-recipe" then
+                -- Check if this recipe's products are used in our recipe
+                local urec = data.raw["recipe"][effect.recipe]
+                for _,res in pairs(urec.results or {}) do
+                    if res.name == recipe.ingredients[1].name or res.name == recipe.results[1].name then
+                        match=true
+                        goto continue
+                        break
+                    end
+                end
+                if match then break end
+            end
+        end
+
+        ::continue:: --TODO: Verify if we can jump here from the loop-in-the-loop-in-the-loop
+        -- If this technology unlocks a recipe that produces an item used in our recipe, add our recipe to the tech
+        if match then
+            local prop = {type="unlock-recipe", recipe = recipe.name}
+            table.insert(tech.effects, prop)
+        end
+    end
+end
+
 -- Create tool copies of non-items
 -- Ignore selection tools, blueprints, rail planner and tools
 local prot = {"item", "ammo", "capsule", "gun", "item-with-entity-data", "item-with-label", "item-with-inventory",
@@ -63,12 +92,12 @@ for _, p in pairs(prot) do
 
             -- Create a conversion recipe
             local rto = get_recipe_to(itm.name)
-            local rfrom = get_recipe_from(itm.name)
+            -- local rfrom = get_recipe_from(itm.name)
             table.insert(recs, rto)
-            table.insert(recs, rfrom)
+            -- table.insert(recs, rfrom)
 
             -- Add the conversion recipes to the appropriate tech
-            -- TODO
+            add_recipe_to_tech(rto)
 
         end
 

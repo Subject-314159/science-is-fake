@@ -45,6 +45,9 @@ for name, tech in pairs(data.raw["technology"]) do
                     if item_map[result.name] then
                         all_results[item_map[result.name]] = true
                     end
+                    if fluid_map[ingredient.name] then
+                        all_results[fluid_map[ingredient.name].barrel_item] = true
+                    end
                 end
             else
                 non_recipe_effects = non_recipe_effects + 1
@@ -57,8 +60,12 @@ for name, tech in pairs(data.raw["technology"]) do
         -- But the translated required items for the technology are only unlocked by this technology
         -- To investigate: We might unlock "optimizing" recipes that produce material which is already unlocked, we should not have to remove those
         -- Option: BFS DAG the technologies instead
+        -- For each result removed this way, add a non_recipe_effect multiplier
         for res, _ in pairs(all_results) do
-            cost[res] = nil
+            if cost[res] then
+                non_recipe_effects = non_recipe_effects + 1
+                cost[res] = nil
+            end
         end
 
         -- Get the science cost for non-recipe effects
