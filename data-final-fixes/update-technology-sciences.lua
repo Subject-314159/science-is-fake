@@ -36,7 +36,10 @@ for name, tech in pairs(data.raw["technology"]) do
                         toolname = fluid_map[ingredient.name].barrel_item
                         amount = math.ceil(ingredient.amount / fluid_map[ingredient.name].fluid_amount)
                     end
-                    cost[toolname] = (cost[toolname] or 0) + amount
+                    -- It could be that we have a science pack as ingredient, so we need to check nil
+                    if toolname then
+                        cost[toolname] = (cost[toolname] or 0) + amount
+                    end
                 end
 
                 -- Collect each results
@@ -45,8 +48,8 @@ for name, tech in pairs(data.raw["technology"]) do
                     if item_map[result.name] then
                         all_results[item_map[result.name]] = true
                     end
-                    if fluid_map[ingredient.name] then
-                        all_results[fluid_map[ingredient.name].barrel_item] = true
+                    if fluid_map[result.name] then
+                        all_results[fluid_map[result.name].barrel_item] = true
                     end
                 end
             else
@@ -89,18 +92,26 @@ for name, tech in pairs(data.raw["technology"]) do
         -- Get the cost multiplier
         local sumscience = 0
         local sciencetypes = 0
+        if not tech.unit then
+            log(tech.name .. " has no unit")
+        elseif not tech.unit.ingredients then
+            log(tech.name .. " has no ingredients")
+        end
+        log(tech.name .. " has ingredients: " .. serpent.line(tech.unit.ingredients))
         for _, ingredient in pairs(tech.unit.ingredients or {}) do
-            sumscience = sumscience + ingredient[2]
+            sumscience = sumscience + (ingredient[2] or 1)
             sciencetypes = sciencetypes + 1
         end
 
         -- Multiply the science cost if applicable
         if sumscience > 0 and sciencetypes > 0 then
-            local multiplier = sumscience / sciencetypes
+            local multiplier = math.min(sumscience / sciencetypes, 10)
             for name, count in pairs(cost) do
-                count = math.ceil(count * multiplier)
+                cost[name] = math.max(math.ceil(count * multiplier), 314)
             end
         end
+
+        log(tech.name .. " final cost = " .. serpent.line(cost))
 
         -- Add the new ingredients to the lab map for each lab that can research this technology
         for lab_name, lab_prop in pairs(lab_map) do

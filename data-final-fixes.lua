@@ -30,4 +30,3 @@ require("data-final-fixes.update-lab-inputs")
 -- Clean up initial sciences
 require("data-final-fixes.clean-up-sciences")
 
-log(serpent.block(data.raw["technology"]["physical-projectile-damage-1"]))

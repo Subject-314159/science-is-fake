@@ -64,4 +64,3 @@ for name, lab in pairs(data.raw["lab"]) do
     end
 end
 
-log("Complete science cost mapping = " .. serpent.block(science_cost))

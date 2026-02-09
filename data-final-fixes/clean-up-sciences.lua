@@ -44,12 +44,10 @@ for recipe_name, recipe in pairs(data.raw["recipe"]) do
         if removed_something then
             -- table.insert(recipe_to_remove, recipe_name)
             recipe_to_remove[recipe_name] = true
-            log(recipe_name .. " marked for removal:" .. serpent.block(recipe))
         end
     end
 end
 
-log("Recipe to remove = " .. serpent.block(recipe_to_remove))
 for rec, _ in pairs(recipe_to_remove) do
     -- data.raw["recipe"][rec] = nil
     data.raw["recipe"][rec].hidden = true
@@ -72,8 +70,6 @@ for tech_name, tech in pairs(data.raw["technology"]) do
         end
     end
 end
-
-log("Tech to remove = " .. serpent.block(tech_to_remove))
 
 -- Recursive inherit prerequisites from tech to be removed
 local function recursive_inherit_prerequisites(tech, new)

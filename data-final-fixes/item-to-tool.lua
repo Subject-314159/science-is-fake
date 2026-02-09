@@ -4,6 +4,10 @@
 -- For those items add a small mark (paper icon?) in one of the corners
 -- Function to create recipes
 local function get_recipe(from, to)
+    local org = data.raw["recipe"][from]
+    if not org then
+        org = data.raw["recipe"][to]
+    end
     local r = {
         type = "recipe",
         name = from .. "-to-" .. to,
@@ -19,7 +23,8 @@ local function get_recipe(from, to)
         }},
         energy_required = 0.1,
         maximum_productivity = 0,
-        enabled = false,
+        enabled = (org and org.enabled) or true,
+        -- enabled = false,
         allow_decomposition = false,
         allow_quality = false,
         auto_recycle = false
@@ -42,21 +47,26 @@ local function add_recipe_to_tech(recipe)
             if effect.type == "unlock-recipe" then
                 -- Check if this recipe's products are used in our recipe
                 local urec = data.raw["recipe"][effect.recipe]
-                for _,res in pairs(urec.results or {}) do
+                for _, res in pairs(urec.results or {}) do
                     if res.name == recipe.ingredients[1].name or res.name == recipe.results[1].name then
-                        match=true
+                        match = true
                         goto continue
                         break
                     end
                 end
-                if match then break end
+                if match then
+                    break
+                end
             end
         end
 
-        ::continue:: --TODO: Verify if we can jump here from the loop-in-the-loop-in-the-loop
+        ::continue:: -- TODO: Verify if we can jump here from the loop-in-the-loop-in-the-loop
         -- If this technology unlocks a recipe that produces an item used in our recipe, add our recipe to the tech
         if match then
-            local prop = {type="unlock-recipe", recipe = recipe.name}
+            local prop = {
+                type = "unlock-recipe",
+                recipe = recipe.name
+            }
             table.insert(tech.effects, prop)
         end
     end
@@ -93,8 +103,9 @@ for _, p in pairs(prot) do
             -- Create a conversion recipe
             local rto = get_recipe_to(itm.name)
             -- local rfrom = get_recipe_from(itm.name)
-            table.insert(recs, rto)
+            -- table.insert(recs, rto)
             -- table.insert(recs, rfrom)
+            data:extend({rto})
 
             -- Add the conversion recipes to the appropriate tech
             add_recipe_to_tech(rto)
@@ -125,4 +136,4 @@ for _, p in pairs(prot) do
 end
 
 -- Create new recipes
-data:extend(recs)
+-- data:extend(recs)
